@@ -13,9 +13,11 @@ In the initial state, the pipeline exhibits race conditions, isolated filesystem
 * **Current Issues / Failures**:
   * Missing dependencies: Runs without specifying dependencies, but more importantly, no other jobs wait for `lint` to complete. If linting fails, all other jobs continue running, consuming compute and polluting CI signals.
   * Missing execution timeout: No `timeout-minutes` is set; runaway processes or hanging scripts could run until GitHub's default 6-hour limit.
+  * Configuration format incompatibility: The repository uses legacy `.eslintrc.json`, which exits with code 2 on modern ESLint v9+ unless legacy mode (`ESLINT_USE_FLAT_CONFIG: 'false'`) is specified.
 * **Correct Fix**:
   * Keep `lint` as the entrypoint / root job of the validation sequence.
   * Add `timeout-minutes: 10`.
+  * Set `ESLINT_USE_FLAT_CONFIG: 'false'` on the lint step to ensure compatibility with `.eslintrc.json`.
 
 ---
 
