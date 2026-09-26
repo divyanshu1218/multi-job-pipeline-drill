@@ -18,8 +18,6 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm run lint
-        env:
-          ESLINT_USE_FLAT_CONFIG: 'false'
 
   # Unit tests should only run after lint passes to avoid wasting runner time on ill-formed code
   unit-tests:
